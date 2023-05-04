@@ -1,0 +1,1688 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>brainpy.integrators.ode.BogackiShampine &#8212; BrainPy documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'apis/auto/generated/brainpy.integrators.ode.BogackiShampine';</script>
+    <link rel="shortcut icon" href="../../../_static/logo-square.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="brainpy.integrators.ode.HeunEuler" href="brainpy.integrators.ode.HeunEuler.html" />
+    <link rel="prev" title="brainpy.integrators.ode.CashKarp" href="brainpy.integrators.ode.CashKarp.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Quickstart</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart/simulation.html">Simulating a Brain Dynamics Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart/training.html">Training a Brain Dynamics Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart/analysis.html">Analyzing a Brain Dynamics Model</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">BrainPy Core Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../core_concept/brainpy_transform_concept.html">Concept 1: Object-oriented Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../core_concept/brainpy_dynamical_system.html">Concept 2: Dynamical System</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Brain Dynamics Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial_math/index.html">Math Foundation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_math/variables.html"><code class="docutils literal notranslate"><span class="pre">brainpy.math.Variable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_math/control_flows.html">Control Flows for JIT compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_math/random_number_generation.html">Random Number Generation for JIT Compilation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial_building/index.html">Model Building</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_building/overview_of_dynamic_model.html">Using Built-in Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_building/build_conductance_neurons.html">Building Conductance-based Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_building/build_synapse_models.html">Building Synapse Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_building/build_network_models.html">Building Network Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_building/customize_neuron_models.html">Customizing Your Neuron Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_building/customize_synapse_models.html">Customizing Your Synapse Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial_simulation/index.html">Model Simulation</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_simulation/simulation_dsrunner.html">Simulation with <code class="docutils literal notranslate"><span class="pre">DSRunner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_simulation/parallel_computing.html">Parallel Simulation for Parameter Exploration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial_training/index.html">Model Training</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_training/build_training_models.html">Building Training Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_training/offline_training.html">Training with Offline Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_training/online_training.html">Training with Online Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_training/bp_training.html">Training with Back-propagation Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_training/esn_introduction.html">Introduction to Echo State Network</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial_analysis/index.html">Model Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_analysis/lowdim_analysis.html">Low-dimensional Analyzers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_analysis/highdim_analysis.html">High-dimensional Analyzers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial_analysis/decision_making_model.html">Analysis of a Decision-making Model</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_advanced/adavanced_lowdim_analysis.html">How does low-dimensional analyzers work?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_advanced/interoperation.html">Interoperation with other JAX frameworks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Toolboxes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/ode_numerical_solvers.html">Numerical Solvers for Ordinary Differential Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/sde_numerical_solvers.html">Numerical Solvers for Stochastic Differential Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/fde_numerical_solvers.html">Numerical Solvers for Fractional Differential Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/dde_numerical_solvers.html">Numerical Solvers for Delay Differential Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/joint_equations.html">Joint Differential Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/synaptic_connections.html">Synaptic Connections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/synaptic_weights.html">Synaptic Weights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/optimizers.html">Gradient Descent Optimizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/saving_and_loading.html">Saving and Loading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_toolbox/inputs.html">Inputs Construction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Frequently Asked Questions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_FAQs/citing_and_publication.html">How to cite BrainPy?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_FAQs/uniqueness_of-brainpy-math.html">How is <code class="docutils literal notranslate"><span class="pre">brainpy</span></code> different from other frameworks?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial_FAQs/brainpy_ecosystem.html">BrainPy Ecosystem for Brain Dynamics Modeling</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../brainpy.html"><code class="docutils literal notranslate"><span class="pre">brainpy</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.Integrator.html">brainpy.Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.JointEq.html">brainpy.JointEq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.IntegratorRunner.html">brainpy.IntegratorRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.odeint.html">brainpy.odeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.sdeint.html">brainpy.sdeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.fdeint.html">brainpy.fdeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.DynamicalSystem.html">brainpy.DynamicalSystem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.Container.html">brainpy.Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.Sequential.html">brainpy.Sequential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.Network.html">brainpy.Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.NeuGroup.html">brainpy.NeuGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.SynConn.html">brainpy.SynConn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.SynOut.html">brainpy.SynOut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.SynSTP.html">brainpy.SynSTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.SynLTP.html">brainpy.SynLTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.TwoEndConn.html">brainpy.TwoEndConn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.CondNeuGroup.html">brainpy.CondNeuGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.Channel.html">brainpy.Channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.DSRunner.html">brainpy.DSRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.DSTrainer.html">brainpy.DSTrainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.BPTT.html">brainpy.BPTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.BPFF.html">brainpy.BPFF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.OnlineTrainer.html">brainpy.OnlineTrainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.ForceTrainer.html">brainpy.ForceTrainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.OfflineTrainer.html">brainpy.OfflineTrainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.RidgeTrainer.html">brainpy.RidgeTrainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.NoSharedArg.html">brainpy.NoSharedArg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.LoopOverTime.html">brainpy.LoopOverTime</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../math.html"><code class="docutils literal notranslate"><span class="pre">brainpy.math</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.BrainPyObject.html">brainpy.math.BrainPyObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.FunAsObject.html">brainpy.math.FunAsObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dyn_seq.html">brainpy.math.dyn_seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dyn_dict.html">brainpy.math.dyn_dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.Variable.html">brainpy.math.Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.Parameter.html">brainpy.math.Parameter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.TrainVar.html">brainpy.math.TrainVar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.Partial.html">brainpy.math.Partial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.grad.html">brainpy.math.grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.vector_grad.html">brainpy.math.vector_grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.jacobian.html">brainpy.math.jacobian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.jacrev.html">brainpy.math.jacrev</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.jacfwd.html">brainpy.math.jacfwd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hessian.html">brainpy.math.hessian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.make_loop.html">brainpy.math.make_loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.make_while.html">brainpy.math.make_while</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.make_cond.html">brainpy.math.make_cond</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cond.html">brainpy.math.cond</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ifelse.html">brainpy.math.ifelse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.for_loop.html">brainpy.math.for_loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.while_loop.html">brainpy.math.while_loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.to_object.html">brainpy.math.to_object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.to_dynsys.html">brainpy.math.to_dynsys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.function.html">brainpy.math.function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.jit.html">brainpy.math.jit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ObjectTransform.html">brainpy.math.ObjectTransform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_sum.html">brainpy.math.pre2post_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_prod.html">brainpy.math.pre2post_prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_max.html">brainpy.math.pre2post_max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_min.html">brainpy.math.pre2post_min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_mean.html">brainpy.math.pre2post_mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_event_sum.html">brainpy.math.pre2post_event_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_coo_event_sum.html">brainpy.math.pre2post_coo_event_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2post_event_prod.html">brainpy.math.pre2post_event_prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pre2syn.html">brainpy.math.pre2syn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post_sum.html">brainpy.math.syn2post_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post.html">brainpy.math.syn2post</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post_prod.html">brainpy.math.syn2post_prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post_max.html">brainpy.math.syn2post_max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post_min.html">brainpy.math.syn2post_min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post_mean.html">brainpy.math.syn2post_mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.syn2post_softmax.html">brainpy.math.syn2post_softmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sparse_matmul.html">brainpy.math.sparse_matmul</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.csr_matvec.html">brainpy.math.csr_matvec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.event_csr_matvec.html">brainpy.math.event_csr_matvec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.XLACustomOp.html">brainpy.math.XLACustomOp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.celu.html">brainpy.math.celu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.elu.html">brainpy.math.elu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.gelu.html">brainpy.math.gelu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.glu.html">brainpy.math.glu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hard_tanh.html">brainpy.math.hard_tanh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hard_sigmoid.html">brainpy.math.hard_sigmoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hard_silu.html">brainpy.math.hard_silu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hard_swish.html">brainpy.math.hard_swish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.leaky_relu.html">brainpy.math.leaky_relu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.log_sigmoid.html">brainpy.math.log_sigmoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.log_softmax.html">brainpy.math.log_softmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.one_hot.html">brainpy.math.one_hot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.normalize.html">brainpy.math.normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.relu.html">brainpy.math.relu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.relu6.html">brainpy.math.relu6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sigmoid.html">brainpy.math.sigmoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.soft_sign.html">brainpy.math.soft_sign</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.softmax.html">brainpy.math.softmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.softplus.html">brainpy.math.softplus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.silu.html">brainpy.math.silu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.swish.html">brainpy.math.swish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.selu.html">brainpy.math.selu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.identity.html">brainpy.math.identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.TimeDelay.html">brainpy.math.TimeDelay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.LengthDelay.html">brainpy.math.LengthDelay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.NeuTimeDelay.html">brainpy.math.NeuTimeDelay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.NeuLenDelay.html">brainpy.math.NeuLenDelay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.DelayVariable.html">brainpy.math.DelayVariable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ROTATE_UPDATE.html">brainpy.math.ROTATE_UPDATE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.CONCAT_UPDATE.html">brainpy.math.CONCAT_UPDATE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_float.html">brainpy.math.set_float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_float.html">brainpy.math.get_float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_int.html">brainpy.math.set_int</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_int.html">brainpy.math.get_int</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_bool.html">brainpy.math.set_bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_bool.html">brainpy.math.get_bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_complex.html">brainpy.math.set_complex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_complex.html">brainpy.math.get_complex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_dt.html">brainpy.math.set_dt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_dt.html">brainpy.math.get_dt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_mode.html">brainpy.math.set_mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_mode.html">brainpy.math.get_mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_environment.html">brainpy.math.set_environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.enable_x64.html">brainpy.math.enable_x64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.disable_x64.html">brainpy.math.disable_x64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_platform.html">brainpy.math.set_platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_platform.html">brainpy.math.get_platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_host_device_count.html">brainpy.math.set_host_device_count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.clear_buffer_memory.html">brainpy.math.clear_buffer_memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.enable_gpu_memory_preallocation.html">brainpy.math.enable_gpu_memory_preallocation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.disable_gpu_memory_preallocation.html">brainpy.math.disable_gpu_memory_preallocation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ditype.html">brainpy.math.ditype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dftype.html">brainpy.math.dftype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.environment.html">brainpy.math.environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.batching_environment.html">brainpy.math.batching_environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.training_environment.html">brainpy.math.training_environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.Mode.html">brainpy.math.Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.NonBatchingMode.html">brainpy.math.NonBatchingMode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.BatchingMode.html">brainpy.math.BatchingMode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.TrainingMode.html">brainpy.math.TrainingMode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nonbatching_mode.html">brainpy.math.nonbatching_mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.batching_mode.html">brainpy.math.batching_mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.training_mode.html">brainpy.math.training_mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.as_device_array.html">brainpy.math.as_device_array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.as_jax.html">brainpy.math.as_jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.as_ndarray.html">brainpy.math.as_ndarray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.as_numpy.html">brainpy.math.as_numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.as_variable.html">brainpy.math.as_variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fill_diagonal.html">brainpy.math.fill_diagonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.empty.html">brainpy.math.empty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.empty_like.html">brainpy.math.empty_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ones.html">brainpy.math.ones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ones_like.html">brainpy.math.ones_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.zeros.html">brainpy.math.zeros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.zeros_like.html">brainpy.math.zeros_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array.html">brainpy.math.array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asarray.html">brainpy.math.asarray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arange.html">brainpy.math.arange</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linspace.html">brainpy.math.linspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logspace.html">brainpy.math.logspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.full.html">brainpy.math.full</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.full_like.html">brainpy.math.full_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.eye.html">brainpy.math.eye</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.identity.html">brainpy.math.identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.diag.html">brainpy.math.diag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tri.html">brainpy.math.tri</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tril.html">brainpy.math.tril</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.triu.html">brainpy.math.triu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.real.html">brainpy.math.real</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.imag.html">brainpy.math.imag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.conj.html">brainpy.math.conj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.conjugate.html">brainpy.math.conjugate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ndim.html">brainpy.math.ndim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isreal.html">brainpy.math.isreal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isscalar.html">brainpy.math.isscalar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.add.html">brainpy.math.add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reciprocal.html">brainpy.math.reciprocal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.negative.html">brainpy.math.negative</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.positive.html">brainpy.math.positive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.multiply.html">brainpy.math.multiply</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.divide.html">brainpy.math.divide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.power.html">brainpy.math.power</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.subtract.html">brainpy.math.subtract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.true_divide.html">brainpy.math.true_divide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.floor_divide.html">brainpy.math.floor_divide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.float_power.html">brainpy.math.float_power</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fmod.html">brainpy.math.fmod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.mod.html">brainpy.math.mod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.modf.html">brainpy.math.modf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.divmod.html">brainpy.math.divmod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.remainder.html">brainpy.math.remainder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.abs.html">brainpy.math.abs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.exp.html">brainpy.math.exp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.exp2.html">brainpy.math.exp2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.expm1.html">brainpy.math.expm1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.log.html">brainpy.math.log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.log10.html">brainpy.math.log10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.log1p.html">brainpy.math.log1p</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.log2.html">brainpy.math.log2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logaddexp.html">brainpy.math.logaddexp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logaddexp2.html">brainpy.math.logaddexp2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.lcm.html">brainpy.math.lcm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.gcd.html">brainpy.math.gcd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arccos.html">brainpy.math.arccos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arccosh.html">brainpy.math.arccosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arcsin.html">brainpy.math.arcsin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arcsinh.html">brainpy.math.arcsinh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arctan.html">brainpy.math.arctan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arctan2.html">brainpy.math.arctan2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arctanh.html">brainpy.math.arctanh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cos.html">brainpy.math.cos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cosh.html">brainpy.math.cosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sin.html">brainpy.math.sin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sinc.html">brainpy.math.sinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sinh.html">brainpy.math.sinh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tan.html">brainpy.math.tan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tanh.html">brainpy.math.tanh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.deg2rad.html">brainpy.math.deg2rad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hypot.html">brainpy.math.hypot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.rad2deg.html">brainpy.math.rad2deg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.degrees.html">brainpy.math.degrees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.radians.html">brainpy.math.radians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.round.html">brainpy.math.round</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.around.html">brainpy.math.around</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.round_.html">brainpy.math.round_</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.rint.html">brainpy.math.rint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.floor.html">brainpy.math.floor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ceil.html">brainpy.math.ceil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.trunc.html">brainpy.math.trunc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fix.html">brainpy.math.fix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.prod.html">brainpy.math.prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sum.html">brainpy.math.sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.diff.html">brainpy.math.diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.median.html">brainpy.math.median</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nancumprod.html">brainpy.math.nancumprod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nancumsum.html">brainpy.math.nancumsum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanprod.html">brainpy.math.nanprod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nansum.html">brainpy.math.nansum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cumprod.html">brainpy.math.cumprod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cumsum.html">brainpy.math.cumsum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ediff1d.html">brainpy.math.ediff1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cross.html">brainpy.math.cross</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.trapz.html">brainpy.math.trapz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isfinite.html">brainpy.math.isfinite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isinf.html">brainpy.math.isinf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isnan.html">brainpy.math.isnan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.signbit.html">brainpy.math.signbit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.copysign.html">brainpy.math.copysign</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nextafter.html">brainpy.math.nextafter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ldexp.html">brainpy.math.ldexp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.frexp.html">brainpy.math.frexp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.convolve.html">brainpy.math.convolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sqrt.html">brainpy.math.sqrt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cbrt.html">brainpy.math.cbrt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.square.html">brainpy.math.square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.absolute.html">brainpy.math.absolute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fabs.html">brainpy.math.fabs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sign.html">brainpy.math.sign</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.heaviside.html">brainpy.math.heaviside</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.maximum.html">brainpy.math.maximum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.minimum.html">brainpy.math.minimum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fmax.html">brainpy.math.fmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fmin.html">brainpy.math.fmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.interp.html">brainpy.math.interp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.clip.html">brainpy.math.clip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.angle.html">brainpy.math.angle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.bitwise_and.html">brainpy.math.bitwise_and</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.bitwise_not.html">brainpy.math.bitwise_not</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.bitwise_or.html">brainpy.math.bitwise_or</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.bitwise_xor.html">brainpy.math.bitwise_xor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.invert.html">brainpy.math.invert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.left_shift.html">brainpy.math.left_shift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.right_shift.html">brainpy.math.right_shift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.equal.html">brainpy.math.equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.not_equal.html">brainpy.math.not_equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.greater.html">brainpy.math.greater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.greater_equal.html">brainpy.math.greater_equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.less.html">brainpy.math.less</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.less_equal.html">brainpy.math.less_equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array_equal.html">brainpy.math.array_equal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isclose.html">brainpy.math.isclose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.allclose.html">brainpy.math.allclose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logical_and.html">brainpy.math.logical_and</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logical_not.html">brainpy.math.logical_not</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logical_or.html">brainpy.math.logical_or</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.logical_xor.html">brainpy.math.logical_xor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.all.html">brainpy.math.all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.any.html">brainpy.math.any</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.alltrue.html">brainpy.math.alltrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sometrue.html">brainpy.math.sometrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.shape.html">brainpy.math.shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.size.html">brainpy.math.size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reshape.html">brainpy.math.reshape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ravel.html">brainpy.math.ravel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.moveaxis.html">brainpy.math.moveaxis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.transpose.html">brainpy.math.transpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.swapaxes.html">brainpy.math.swapaxes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.concatenate.html">brainpy.math.concatenate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.stack.html">brainpy.math.stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.vstack.html">brainpy.math.vstack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hstack.html">brainpy.math.hstack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dstack.html">brainpy.math.dstack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.column_stack.html">brainpy.math.column_stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.split.html">brainpy.math.split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dsplit.html">brainpy.math.dsplit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hsplit.html">brainpy.math.hsplit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.vsplit.html">brainpy.math.vsplit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tile.html">brainpy.math.tile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.repeat.html">brainpy.math.repeat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unique.html">brainpy.math.unique</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.append.html">brainpy.math.append</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.flip.html">brainpy.math.flip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fliplr.html">brainpy.math.fliplr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.flipud.html">brainpy.math.flipud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.roll.html">brainpy.math.roll</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.atleast_1d.html">brainpy.math.atleast_1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.atleast_2d.html">brainpy.math.atleast_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.atleast_3d.html">brainpy.math.atleast_3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.expand_dims.html">brainpy.math.expand_dims</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.squeeze.html">brainpy.math.squeeze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sort.html">brainpy.math.sort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.argsort.html">brainpy.math.argsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.argmax.html">brainpy.math.argmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.argmin.html">brainpy.math.argmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.argwhere.html">brainpy.math.argwhere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nonzero.html">brainpy.math.nonzero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.flatnonzero.html">brainpy.math.flatnonzero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.where.html">brainpy.math.where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.searchsorted.html">brainpy.math.searchsorted</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.extract.html">brainpy.math.extract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.count_nonzero.html">brainpy.math.count_nonzero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.max.html">brainpy.math.max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.min.html">brainpy.math.min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.amax.html">brainpy.math.amax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.amin.html">brainpy.math.amin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array_split.html">brainpy.math.array_split</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.meshgrid.html">brainpy.math.meshgrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.vander.html">brainpy.math.vander</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tril_indices.html">brainpy.math.tril_indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tril_indices_from.html">brainpy.math.tril_indices_from</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.triu_indices.html">brainpy.math.triu_indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.triu_indices_from.html">brainpy.math.triu_indices_from</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.take.html">brainpy.math.take</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.select.html">brainpy.math.select</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanmin.html">brainpy.math.nanmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanmax.html">brainpy.math.nanmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ptp.html">brainpy.math.ptp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.percentile.html">brainpy.math.percentile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanpercentile.html">brainpy.math.nanpercentile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.quantile.html">brainpy.math.quantile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanquantile.html">brainpy.math.nanquantile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.average.html">brainpy.math.average</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.mean.html">brainpy.math.mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.std.html">brainpy.math.std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.var.html">brainpy.math.var</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanmedian.html">brainpy.math.nanmedian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanmean.html">brainpy.math.nanmean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanstd.html">brainpy.math.nanstd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanvar.html">brainpy.math.nanvar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.corrcoef.html">brainpy.math.corrcoef</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.correlate.html">brainpy.math.correlate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cov.html">brainpy.math.cov</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.histogram.html">brainpy.math.histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.bincount.html">brainpy.math.bincount</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.digitize.html">brainpy.math.digitize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.bartlett.html">brainpy.math.bartlett</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.blackman.html">brainpy.math.blackman</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hamming.html">brainpy.math.hamming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.hanning.html">brainpy.math.hanning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.kaiser.html">brainpy.math.kaiser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dot.html">brainpy.math.dot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.vdot.html">brainpy.math.vdot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.inner.html">brainpy.math.inner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.outer.html">brainpy.math.outer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.kron.html">brainpy.math.kron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.matmul.html">brainpy.math.matmul</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.trace.html">brainpy.math.trace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.product.html">brainpy.math.product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.row_stack.html">brainpy.math.row_stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.apply_over_axes.html">brainpy.math.apply_over_axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.apply_along_axis.html">brainpy.math.apply_along_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array_equiv.html">brainpy.math.array_equiv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array_repr.html">brainpy.math.array_repr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array_str.html">brainpy.math.array_str</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.block.html">brainpy.math.block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.broadcast_arrays.html">brainpy.math.broadcast_arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.broadcast_shapes.html">brainpy.math.broadcast_shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.broadcast_to.html">brainpy.math.broadcast_to</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.compress.html">brainpy.math.compress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cumproduct.html">brainpy.math.cumproduct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.diag_indices.html">brainpy.math.diag_indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.diag_indices_from.html">brainpy.math.diag_indices_from</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.diagflat.html">brainpy.math.diagflat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.diagonal.html">brainpy.math.diagonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.einsum.html">brainpy.math.einsum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.einsum_path.html">brainpy.math.einsum_path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.geomspace.html">brainpy.math.geomspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.gradient.html">brainpy.math.gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.histogram2d.html">brainpy.math.histogram2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.histogram_bin_edges.html">brainpy.math.histogram_bin_edges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.histogramdd.html">brainpy.math.histogramdd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.i0.html">brainpy.math.i0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.in1d.html">brainpy.math.in1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.indices.html">brainpy.math.indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.insert.html">brainpy.math.insert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.intersect1d.html">brainpy.math.intersect1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.iscomplex.html">brainpy.math.iscomplex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isin.html">brainpy.math.isin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ix_.html">brainpy.math.ix_</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.lexsort.html">brainpy.math.lexsort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.load.html">brainpy.math.load</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.save.html">brainpy.math.save</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.savez.html">brainpy.math.savez</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.mask_indices.html">brainpy.math.mask_indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.msort.html">brainpy.math.msort</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nan_to_num.html">brainpy.math.nan_to_num</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanargmax.html">brainpy.math.nanargmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.setdiff1d.html">brainpy.math.setdiff1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.nanargmin.html">brainpy.math.nanargmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pad.html">brainpy.math.pad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.poly.html">brainpy.math.poly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polyadd.html">brainpy.math.polyadd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polyder.html">brainpy.math.polyder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polyfit.html">brainpy.math.polyfit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polyint.html">brainpy.math.polyint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polymul.html">brainpy.math.polymul</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polysub.html">brainpy.math.polysub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polyval.html">brainpy.math.polyval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.resize.html">brainpy.math.resize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.rollaxis.html">brainpy.math.rollaxis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.roots.html">brainpy.math.roots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.rot90.html">brainpy.math.rot90</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.setxor1d.html">brainpy.math.setxor1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.tensordot.html">brainpy.math.tensordot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.trim_zeros.html">brainpy.math.trim_zeros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.union1d.html">brainpy.math.union1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unravel_index.html">brainpy.math.unravel_index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unwrap.html">brainpy.math.unwrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.take_along_axis.html">brainpy.math.take_along_axis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.can_cast.html">brainpy.math.can_cast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.choose.html">brainpy.math.choose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.copy.html">brainpy.math.copy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.frombuffer.html">brainpy.math.frombuffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fromfile.html">brainpy.math.fromfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fromfunction.html">brainpy.math.fromfunction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fromiter.html">brainpy.math.fromiter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fromstring.html">brainpy.math.fromstring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.get_printoptions.html">brainpy.math.get_printoptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.iscomplexobj.html">brainpy.math.iscomplexobj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isneginf.html">brainpy.math.isneginf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isposinf.html">brainpy.math.isposinf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.isrealobj.html">brainpy.math.isrealobj</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.issubdtype.html">brainpy.math.issubdtype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.issubsctype.html">brainpy.math.issubsctype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.iterable.html">brainpy.math.iterable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.packbits.html">brainpy.math.packbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.piecewise.html">brainpy.math.piecewise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.printoptions.html">brainpy.math.printoptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.set_printoptions.html">brainpy.math.set_printoptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.promote_types.html">brainpy.math.promote_types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ravel_multi_index.html">brainpy.math.ravel_multi_index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.result_type.html">brainpy.math.result_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.sort_complex.html">brainpy.math.sort_complex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unpackbits.html">brainpy.math.unpackbits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.delete.html">brainpy.math.delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.add_newdoc.html">brainpy.math.add_newdoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.array2string.html">brainpy.math.array2string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asanyarray.html">brainpy.math.asanyarray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.ascontiguousarray.html">brainpy.math.ascontiguousarray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asfarray.html">brainpy.math.asfarray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asscalar.html">brainpy.math.asscalar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.common_type.html">brainpy.math.common_type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.disp.html">brainpy.math.disp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.genfromtxt.html">brainpy.math.genfromtxt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.loadtxt.html">brainpy.math.loadtxt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.info.html">brainpy.math.info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.issubclass_.html">brainpy.math.issubclass_</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.place.html">brainpy.math.place</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.polydiv.html">brainpy.math.polydiv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.put.html">brainpy.math.put</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.putmask.html">brainpy.math.putmask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.safe_eval.html">brainpy.math.safe_eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.savetxt.html">brainpy.math.savetxt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.savez_compressed.html">brainpy.math.savez_compressed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.show_config.html">brainpy.math.show_config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.typename.html">brainpy.math.typename</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.copyto.html">brainpy.math.copyto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.matrix.html">brainpy.math.matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asmatrix.html">brainpy.math.asmatrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.mat.html">brainpy.math.mat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.dtype.html">brainpy.math.dtype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.finfo.html">brainpy.math.finfo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.iinfo.html">brainpy.math.iinfo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.e.html">brainpy.math.e</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.pi.html">brainpy.math.pi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.inf.html">brainpy.math.inf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.add_docstring.html">brainpy.math.add_docstring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.add_newdoc_ufunc.html">brainpy.math.add_newdoc_ufunc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.flatten.html">brainpy.math.flatten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cat.html">brainpy.math.cat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsqueeze.html">brainpy.math.unsqueeze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.abs.html">brainpy.math.abs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.absolute.html">brainpy.math.absolute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.acos.html">brainpy.math.acos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arccos.html">brainpy.math.arccos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.acosh.html">brainpy.math.acosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arccosh.html">brainpy.math.arccosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.add.html">brainpy.math.add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.addcdiv.html">brainpy.math.addcdiv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.addcmul.html">brainpy.math.addcmul</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.angle.html">brainpy.math.angle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asin.html">brainpy.math.asin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arcsin.html">brainpy.math.arcsin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.asinh.html">brainpy.math.asinh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.atan.html">brainpy.math.atan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.arctan.html">brainpy.math.arctan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.atan2.html">brainpy.math.atan2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.atanh.html">brainpy.math.atanh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.Tensor.html">brainpy.math.Tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.concat.html">brainpy.math.concat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_sum.html">brainpy.math.reduce_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_max.html">brainpy.math.reduce_max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_min.html">brainpy.math.reduce_min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_mean.html">brainpy.math.reduce_mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_all.html">brainpy.math.reduce_all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_any.html">brainpy.math.reduce_any</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_logsumexp.html">brainpy.math.reduce_logsumexp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_prod.html">brainpy.math.reduce_prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_std.html">brainpy.math.reduce_std</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_variance.html">brainpy.math.reduce_variance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.reduce_euclidean_norm.html">brainpy.math.reduce_euclidean_norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsorted_segment_sqrt_n.html">brainpy.math.unsorted_segment_sqrt_n</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.segment_mean.html">brainpy.math.segment_mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsorted_segment_sum.html">brainpy.math.unsorted_segment_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsorted_segment_prod.html">brainpy.math.unsorted_segment_prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsorted_segment_max.html">brainpy.math.unsorted_segment_max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsorted_segment_min.html">brainpy.math.unsorted_segment_min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.unsorted_segment_mean.html">brainpy.math.unsorted_segment_mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.segment_sum.html">brainpy.math.segment_sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.segment_prod.html">brainpy.math.segment_prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.segment_max.html">brainpy.math.segment_max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.segment_min.html">brainpy.math.segment_min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.clip_by_value.html">brainpy.math.clip_by_value</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.cast.html">brainpy.math.cast</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.sigmoid.html">brainpy.math.surrogate.sigmoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.piecewise_quadratic.html">brainpy.math.surrogate.piecewise_quadratic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.piecewise_exp.html">brainpy.math.surrogate.piecewise_exp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.soft_sign.html">brainpy.math.surrogate.soft_sign</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.arctan.html">brainpy.math.surrogate.arctan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.nonzero_sign_log.html">brainpy.math.surrogate.nonzero_sign_log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.erf.html">brainpy.math.surrogate.erf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.piecewise_leaky_relu.html">brainpy.math.surrogate.piecewise_leaky_relu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.squarewave_fourier_series.html">brainpy.math.surrogate.squarewave_fourier_series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.s2nn.html">brainpy.math.surrogate.s2nn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.q_pseudo_spike.html">brainpy.math.surrogate.q_pseudo_spike</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.leaky_relu.html">brainpy.math.surrogate.leaky_relu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.log_tailed_relu.html">brainpy.math.surrogate.log_tailed_relu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.relu_grad.html">brainpy.math.surrogate.relu_grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.gaussian_grad.html">brainpy.math.surrogate.gaussian_grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.inv_square_grad.html">brainpy.math.surrogate.inv_square_grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.multi_gaussian_grad.html">brainpy.math.surrogate.multi_gaussian_grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.slayer_grad.html">brainpy.math.surrogate.slayer_grad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.inv_square_grad2.html">brainpy.math.surrogate.inv_square_grad2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.surrogate.relu_grad2.html">brainpy.math.surrogate.relu_grad2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.seed.html">brainpy.math.random.seed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.split_key.html">brainpy.math.random.split_key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.default_rng.html">brainpy.math.random.default_rng</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.rand.html">brainpy.math.random.rand</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.randint.html">brainpy.math.random.randint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.random_integers.html">brainpy.math.random.random_integers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.randn.html">brainpy.math.random.randn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.random.html">brainpy.math.random.random</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.random_sample.html">brainpy.math.random.random_sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.ranf.html">brainpy.math.random.ranf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.sample.html">brainpy.math.random.sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.choice.html">brainpy.math.random.choice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.permutation.html">brainpy.math.random.permutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.shuffle.html">brainpy.math.random.shuffle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.beta.html">brainpy.math.random.beta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.exponential.html">brainpy.math.random.exponential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.gamma.html">brainpy.math.random.gamma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.gumbel.html">brainpy.math.random.gumbel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.laplace.html">brainpy.math.random.laplace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.logistic.html">brainpy.math.random.logistic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.normal.html">brainpy.math.random.normal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.pareto.html">brainpy.math.random.pareto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.poisson.html">brainpy.math.random.poisson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.standard_cauchy.html">brainpy.math.random.standard_cauchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.standard_exponential.html">brainpy.math.random.standard_exponential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.standard_gamma.html">brainpy.math.random.standard_gamma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.standard_normal.html">brainpy.math.random.standard_normal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.standard_t.html">brainpy.math.random.standard_t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.uniform.html">brainpy.math.random.uniform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.truncated_normal.html">brainpy.math.random.truncated_normal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.bernoulli.html">brainpy.math.random.bernoulli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.lognormal.html">brainpy.math.random.lognormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.binomial.html">brainpy.math.random.binomial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.chisquare.html">brainpy.math.random.chisquare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.dirichlet.html">brainpy.math.random.dirichlet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.geometric.html">brainpy.math.random.geometric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.f.html">brainpy.math.random.f</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.hypergeometric.html">brainpy.math.random.hypergeometric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.logseries.html">brainpy.math.random.logseries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.multinomial.html">brainpy.math.random.multinomial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.multivariate_normal.html">brainpy.math.random.multivariate_normal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.negative_binomial.html">brainpy.math.random.negative_binomial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.noncentral_chisquare.html">brainpy.math.random.noncentral_chisquare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.noncentral_f.html">brainpy.math.random.noncentral_f</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.power.html">brainpy.math.random.power</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.rayleigh.html">brainpy.math.random.rayleigh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.triangular.html">brainpy.math.random.triangular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.vonmises.html">brainpy.math.random.vonmises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.wald.html">brainpy.math.random.wald</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.weibull.html">brainpy.math.random.weibull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.weibull_min.html">brainpy.math.random.weibull_min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.zipf.html">brainpy.math.random.zipf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.maxwell.html">brainpy.math.random.maxwell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.t.html">brainpy.math.random.t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.orthogonal.html">brainpy.math.random.orthogonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.loggamma.html">brainpy.math.random.loggamma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.categorical.html">brainpy.math.random.categorical</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.rand_like.html">brainpy.math.random.rand_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.randint_like.html">brainpy.math.random.randint_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.randn_like.html">brainpy.math.random.randn_like</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.RandomState.html">brainpy.math.random.RandomState</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.Generator.html">brainpy.math.random.Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.random.DEFAULT.html">brainpy.math.random.DEFAULT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.cholesky.html">brainpy.math.linalg.cholesky</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.cond.html">brainpy.math.linalg.cond</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.det.html">brainpy.math.linalg.det</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.eig.html">brainpy.math.linalg.eig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.eigh.html">brainpy.math.linalg.eigh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.eigvals.html">brainpy.math.linalg.eigvals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.eigvalsh.html">brainpy.math.linalg.eigvalsh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.inv.html">brainpy.math.linalg.inv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.svd.html">brainpy.math.linalg.svd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.lstsq.html">brainpy.math.linalg.lstsq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.matrix_power.html">brainpy.math.linalg.matrix_power</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.matrix_rank.html">brainpy.math.linalg.matrix_rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.norm.html">brainpy.math.linalg.norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.pinv.html">brainpy.math.linalg.pinv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.qr.html">brainpy.math.linalg.qr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.solve.html">brainpy.math.linalg.solve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.slogdet.html">brainpy.math.linalg.slogdet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.tensorinv.html">brainpy.math.linalg.tensorinv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.tensorsolve.html">brainpy.math.linalg.tensorsolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.linalg.multi_dot.html">brainpy.math.linalg.multi_dot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.fft.html">brainpy.math.fft.fft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.fft2.html">brainpy.math.fft.fft2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.fftfreq.html">brainpy.math.fft.fftfreq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.fftn.html">brainpy.math.fft.fftn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.fftshift.html">brainpy.math.fft.fftshift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.hfft.html">brainpy.math.fft.hfft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.ifft.html">brainpy.math.fft.ifft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.ifft2.html">brainpy.math.fft.ifft2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.ifftn.html">brainpy.math.fft.ifftn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.ifftshift.html">brainpy.math.fft.ifftshift</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.ihfft.html">brainpy.math.fft.ihfft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.irfft.html">brainpy.math.fft.irfft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.irfft2.html">brainpy.math.fft.irfft2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.irfftn.html">brainpy.math.fft.irfftn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.rfft.html">brainpy.math.fft.rfft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.rfft2.html">brainpy.math.fft.rfft2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.rfftfreq.html">brainpy.math.fft.rfftfreq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.math.fft.rfftn.html">brainpy.math.fft.rfftn</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../channels.html"><code class="docutils literal notranslate"><span class="pre">brainpy.channels</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.Ion.html">brainpy.channels.Ion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IonChannel.html">brainpy.channels.IonChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.Calcium.html">brainpy.channels.Calcium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IhChannel.html">brainpy.channels.IhChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.CalciumChannel.html">brainpy.channels.CalciumChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.SodiumChannel.html">brainpy.channels.SodiumChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.PotassiumChannel.html">brainpy.channels.PotassiumChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.LeakyChannel.html">brainpy.channels.LeakyChannel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.INa_Ba2002.html">brainpy.channels.INa_Ba2002</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.INa_TM1991.html">brainpy.channels.INa_TM1991</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.INa_HH1952.html">brainpy.channels.INa_HH1952</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKDR_Ba2002.html">brainpy.channels.IKDR_Ba2002</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IK_TM1991.html">brainpy.channels.IK_TM1991</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IK_HH1952.html">brainpy.channels.IK_HH1952</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKA1_HM1992.html">brainpy.channels.IKA1_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKA2_HM1992.html">brainpy.channels.IKA2_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKK2A_HM1992.html">brainpy.channels.IKK2A_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKK2B_HM1992.html">brainpy.channels.IKK2B_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKNI_Ya1989.html">brainpy.channels.IKNI_Ya1989</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.CalciumFixed.html">brainpy.channels.CalciumFixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.CalciumDyna.html">brainpy.channels.CalciumDyna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.CalciumDetailed.html">brainpy.channels.CalciumDetailed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.CalciumFirstOrder.html">brainpy.channels.CalciumFirstOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.ICaN_IS2008.html">brainpy.channels.ICaN_IS2008</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.ICaT_HM1992.html">brainpy.channels.ICaT_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.ICaT_HP1992.html">brainpy.channels.ICaT_HP1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.ICaHT_HM1992.html">brainpy.channels.ICaHT_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.ICaL_IS2008.html">brainpy.channels.ICaL_IS2008</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IAHP_De1994.html">brainpy.channels.IAHP_De1994</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.Ih_HM1992.html">brainpy.channels.Ih_HM1992</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.Ih_De1996.html">brainpy.channels.Ih_De1996</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IL.html">brainpy.channels.IL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.channels.IKL.html">brainpy.channels.IKL</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../layers.html"><code class="docutils literal notranslate"><span class="pre">brainpy.layers</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Layer.html">brainpy.layers.Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Conv1D.html">brainpy.layers.Conv1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Conv2D.html">brainpy.layers.Conv2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Conv3D.html">brainpy.layers.Conv3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.ConvTranspose1d.html">brainpy.layers.ConvTranspose1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.ConvTranspose2d.html">brainpy.layers.ConvTranspose2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.ConvTranspose3d.html">brainpy.layers.ConvTranspose3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Dropout.html">brainpy.layers.Dropout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Activation.html">brainpy.layers.Activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Flatten.html">brainpy.layers.Flatten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.FunAsLayer.html">brainpy.layers.FunAsLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Dense.html">brainpy.layers.Dense</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Linear.html">brainpy.layers.Linear</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Identity.html">brainpy.layers.Identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.BatchNorm1D.html">brainpy.layers.BatchNorm1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.BatchNorm2D.html">brainpy.layers.BatchNorm2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.BatchNorm3D.html">brainpy.layers.BatchNorm3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.LayerNorm.html">brainpy.layers.LayerNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.GroupNorm.html">brainpy.layers.GroupNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.InstanceNorm.html">brainpy.layers.InstanceNorm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.NVAR.html">brainpy.layers.NVAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.MaxPool.html">brainpy.layers.MaxPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.MinPool.html">brainpy.layers.MinPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AvgPool.html">brainpy.layers.AvgPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AvgPool1d.html">brainpy.layers.AvgPool1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AvgPool2d.html">brainpy.layers.AvgPool2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AvgPool3d.html">brainpy.layers.AvgPool3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.MaxPool1d.html">brainpy.layers.MaxPool1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.MaxPool2d.html">brainpy.layers.MaxPool2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.MaxPool3d.html">brainpy.layers.MaxPool3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AdaptiveAvgPool1d.html">brainpy.layers.AdaptiveAvgPool1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AdaptiveAvgPool2d.html">brainpy.layers.AdaptiveAvgPool2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AdaptiveAvgPool3d.html">brainpy.layers.AdaptiveAvgPool3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AdaptiveMaxPool1d.html">brainpy.layers.AdaptiveMaxPool1d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AdaptiveMaxPool2d.html">brainpy.layers.AdaptiveMaxPool2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.AdaptiveMaxPool3d.html">brainpy.layers.AdaptiveMaxPool3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Reservoir.html">brainpy.layers.Reservoir</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.RNNCell.html">brainpy.layers.RNNCell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.GRUCell.html">brainpy.layers.GRUCell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.LSTMCell.html">brainpy.layers.LSTMCell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Conv1dLSTMCell.html">brainpy.layers.Conv1dLSTMCell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Conv2dLSTMCell.html">brainpy.layers.Conv2dLSTMCell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.Conv3dLSTMCell.html">brainpy.layers.Conv3dLSTMCell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.VanillaRNN.html">brainpy.layers.VanillaRNN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.GRU.html">brainpy.layers.GRU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.layers.LSTM.html">brainpy.layers.LSTM</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../neurons.html"><code class="docutils literal notranslate"><span class="pre">brainpy.neurons</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.HH.html">brainpy.neurons.HH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.MorrisLecar.html">brainpy.neurons.MorrisLecar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.PinskyRinzelModel.html">brainpy.neurons.PinskyRinzelModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.WangBuzsakiModel.html">brainpy.neurons.WangBuzsakiModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.FractionalNeuron.html">brainpy.neurons.FractionalNeuron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.FractionalFHR.html">brainpy.neurons.FractionalFHR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.FractionalIzhikevich.html">brainpy.neurons.FractionalIzhikevich</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.LeakyIntegrator.html">brainpy.neurons.LeakyIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.LIF.html">brainpy.neurons.LIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.ExpIF.html">brainpy.neurons.ExpIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.AdExIF.html">brainpy.neurons.AdExIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.QuaIF.html">brainpy.neurons.QuaIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.AdQuaIF.html">brainpy.neurons.AdQuaIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.GIF.html">brainpy.neurons.GIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.ALIFBellec2020.html">brainpy.neurons.ALIFBellec2020</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.Izhikevich.html">brainpy.neurons.Izhikevich</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.HindmarshRose.html">brainpy.neurons.HindmarshRose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.FHN.html">brainpy.neurons.FHN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.OUProcess.html">brainpy.neurons.OUProcess</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.InputGroup.html">brainpy.neurons.InputGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.OutputGroup.html">brainpy.neurons.OutputGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.SpikeTimeGroup.html">brainpy.neurons.SpikeTimeGroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.neurons.PoissonGroup.html">brainpy.neurons.PoissonGroup</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rates.html"><code class="docutils literal notranslate"><span class="pre">brainpy.rates</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.RateModel.html">brainpy.rates.RateModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.FHN.html">brainpy.rates.FHN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.FeedbackFHN.html">brainpy.rates.FeedbackFHN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.QIF.html">brainpy.rates.QIF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.StuartLandauOscillator.html">brainpy.rates.StuartLandauOscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.WilsonCowanModel.html">brainpy.rates.WilsonCowanModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.rates.ThresholdLinearModel.html">brainpy.rates.ThresholdLinearModel</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../synapses.html"><code class="docutils literal notranslate"><span class="pre">brainpy.synapses</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.Delta.html">brainpy.synapses.Delta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.Exponential.html">brainpy.synapses.Exponential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.DualExponential.html">brainpy.synapses.DualExponential</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.Alpha.html">brainpy.synapses.Alpha</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.NMDA.html">brainpy.synapses.NMDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.PoissonInput.html">brainpy.synapses.PoissonInput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.AMPA.html">brainpy.synapses.AMPA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.GABAa.html">brainpy.synapses.GABAa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.BioNMDA.html">brainpy.synapses.BioNMDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.DelayCoupling.html">brainpy.synapses.DelayCoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.DiffusiveCoupling.html">brainpy.synapses.DiffusiveCoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.AdditiveCoupling.html">brainpy.synapses.AdditiveCoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synapses.GapJunction.html">brainpy.synapses.GapJunction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../synouts.html"><code class="docutils literal notranslate"><span class="pre">brainpy.synouts</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synouts.COBA.html">brainpy.synouts.COBA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synouts.CUBA.html">brainpy.synouts.CUBA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synouts.MgBlock.html">brainpy.synouts.MgBlock</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../synplast.html"><code class="docutils literal notranslate"><span class="pre">brainpy.synplast</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synplast.STD.html">brainpy.synplast.STD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.synplast.STP.html">brainpy.synplast.STP</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../integrators.html"><code class="docutils literal notranslate"><span class="pre">brainpy.integrators</span></code> module</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.ODEIntegrator.html">brainpy.integrators.ode.ODEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.set_default_odeint.html">brainpy.integrators.ode.set_default_odeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.get_default_odeint.html">brainpy.integrators.ode.get_default_odeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.register_ode_integrator.html">brainpy.integrators.ode.register_ode_integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.get_supported_methods.html">brainpy.integrators.ode.get_supported_methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.ExplicitRKIntegrator.html">brainpy.integrators.ode.ExplicitRKIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.Euler.html">brainpy.integrators.ode.Euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.MidPoint.html">brainpy.integrators.ode.MidPoint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.Heun2.html">brainpy.integrators.ode.Heun2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.Ralston2.html">brainpy.integrators.ode.Ralston2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.RK2.html">brainpy.integrators.ode.RK2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.RK3.html">brainpy.integrators.ode.RK3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.Heun3.html">brainpy.integrators.ode.Heun3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.Ralston3.html">brainpy.integrators.ode.Ralston3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.SSPRK3.html">brainpy.integrators.ode.SSPRK3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.RK4.html">brainpy.integrators.ode.RK4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.Ralston4.html">brainpy.integrators.ode.Ralston4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.RK4Rule38.html">brainpy.integrators.ode.RK4Rule38</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.AdaptiveRKIntegrator.html">brainpy.integrators.ode.AdaptiveRKIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.RKF12.html">brainpy.integrators.ode.RKF12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.RKF45.html">brainpy.integrators.ode.RKF45</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.DormandPrince.html">brainpy.integrators.ode.DormandPrince</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.CashKarp.html">brainpy.integrators.ode.CashKarp</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">brainpy.integrators.ode.BogackiShampine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.HeunEuler.html">brainpy.integrators.ode.HeunEuler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.ode.ExponentialEuler.html">brainpy.integrators.ode.ExponentialEuler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.SDEIntegrator.html">brainpy.integrators.sde.SDEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.set_default_sdeint.html">brainpy.integrators.sde.set_default_sdeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.get_default_sdeint.html">brainpy.integrators.sde.get_default_sdeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.register_sde_integrator.html">brainpy.integrators.sde.register_sde_integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.get_supported_methods.html">brainpy.integrators.sde.get_supported_methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.Euler.html">brainpy.integrators.sde.Euler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.Heun.html">brainpy.integrators.sde.Heun</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.Milstein.html">brainpy.integrators.sde.Milstein</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.MilsteinGradFree.html">brainpy.integrators.sde.MilsteinGradFree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.ExponentialEuler.html">brainpy.integrators.sde.ExponentialEuler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.SRK1W1.html">brainpy.integrators.sde.SRK1W1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.SRK2W1.html">brainpy.integrators.sde.SRK2W1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.sde.KlPl.html">brainpy.integrators.sde.KlPl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.FDEIntegrator.html">brainpy.integrators.fde.FDEIntegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.set_default_fdeint.html">brainpy.integrators.fde.set_default_fdeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.get_default_fdeint.html">brainpy.integrators.fde.get_default_fdeint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.register_fde_integrator.html">brainpy.integrators.fde.register_fde_integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.get_supported_methods.html">brainpy.integrators.fde.get_supported_methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.CaputoEuler.html">brainpy.integrators.fde.CaputoEuler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.CaputoL1Schema.html">brainpy.integrators.fde.CaputoL1Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.integrators.fde.GLShortMemory.html">brainpy.integrators.fde.GLShortMemory</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../analysis.html"><code class="docutils literal notranslate"><span class="pre">brainpy.analysis</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.PhasePlane1D.html">brainpy.analysis.PhasePlane1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.PhasePlane2D.html">brainpy.analysis.PhasePlane2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.Bifurcation1D.html">brainpy.analysis.Bifurcation1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.Bifurcation2D.html">brainpy.analysis.Bifurcation2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.FastSlow1D.html">brainpy.analysis.FastSlow1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.FastSlow2D.html">brainpy.analysis.FastSlow2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.analysis.SlowPointFinder.html">brainpy.analysis.SlowPointFinder</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../connect.html"><code class="docutils literal notranslate"><span class="pre">brainpy.connect</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.mat2coo.html">brainpy.connect.mat2coo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.mat2csc.html">brainpy.connect.mat2csc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.mat2csr.html">brainpy.connect.mat2csr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.csr2csc.html">brainpy.connect.csr2csc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.csr2mat.html">brainpy.connect.csr2mat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.csr2coo.html">brainpy.connect.csr2coo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.coo2csr.html">brainpy.connect.coo2csr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.coo2csc.html">brainpy.connect.coo2csc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.coo2mat.html">brainpy.connect.coo2mat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.Connector.html">brainpy.connect.Connector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.TwoEndConnector.html">brainpy.connect.TwoEndConnector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.OneEndConnector.html">brainpy.connect.OneEndConnector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.CONN_MAT.html">brainpy.connect.CONN_MAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.PRE_IDS.html">brainpy.connect.PRE_IDS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.POST_IDS.html">brainpy.connect.POST_IDS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.PRE2POST.html">brainpy.connect.PRE2POST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.POST2PRE.html">brainpy.connect.POST2PRE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.PRE2SYN.html">brainpy.connect.PRE2SYN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.POST2SYN.html">brainpy.connect.POST2SYN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.MatConn.html">brainpy.connect.MatConn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.IJConn.html">brainpy.connect.IJConn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.CSRConn.html">brainpy.connect.CSRConn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.SparseMatConn.html">brainpy.connect.SparseMatConn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.FixedProb.html">brainpy.connect.FixedProb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.FixedPreNum.html">brainpy.connect.FixedPreNum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.FixedPostNum.html">brainpy.connect.FixedPostNum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.FixedTotalNum.html">brainpy.connect.FixedTotalNum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.GaussianProb.html">brainpy.connect.GaussianProb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.ProbDist.html">brainpy.connect.ProbDist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.SmallWorld.html">brainpy.connect.SmallWorld</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.ScaleFreeBA.html">brainpy.connect.ScaleFreeBA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.ScaleFreeBADual.html">brainpy.connect.ScaleFreeBADual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.PowerLaw.html">brainpy.connect.PowerLaw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.One2One.html">brainpy.connect.one2one</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.All2All.html">brainpy.connect.all2all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.GridFour.html">brainpy.connect.GridFour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.GridEight.html">brainpy.connect.GridEight</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.GridN.html">brainpy.connect.GridN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.grid_four.html">brainpy.connect.grid_four</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.connect.grid_eight.html">brainpy.connect.grid_eight</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../encoding.html"><code class="docutils literal notranslate"><span class="pre">brainpy.encoding</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.encoding.Encoder.html">brainpy.encoding.Encoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.encoding.LatencyEncoder.html">brainpy.encoding.LatencyEncoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.encoding.WeightedPhaseEncoder.html">brainpy.encoding.WeightedPhaseEncoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.encoding.PoissonEncoder.html">brainpy.encoding.PoissonEncoder</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../initialize.html"><code class="docutils literal notranslate"><span class="pre">brainpy.initialize</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.Initializer.html">brainpy.initialize.Initializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.InterLayerInitializer.html">brainpy.initialize.InterLayerInitializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.IntraLayerInitializer.html">brainpy.initialize.IntraLayerInitializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.ZeroInit.html">brainpy.initialize.ZeroInit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.Constant.html">brainpy.initialize.Constant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.OneInit.html">brainpy.initialize.OneInit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.Identity.html">brainpy.initialize.Identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.Normal.html">brainpy.initialize.Normal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.Uniform.html">brainpy.initialize.Uniform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.VarianceScaling.html">brainpy.initialize.VarianceScaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.KaimingUniform.html">brainpy.initialize.KaimingUniform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.KaimingNormal.html">brainpy.initialize.KaimingNormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.XavierUniform.html">brainpy.initialize.XavierUniform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.XavierNormal.html">brainpy.initialize.XavierNormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.LecunUniform.html">brainpy.initialize.LecunUniform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.LecunNormal.html">brainpy.initialize.LecunNormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.Orthogonal.html">brainpy.initialize.Orthogonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.DeltaOrthogonal.html">brainpy.initialize.DeltaOrthogonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.GaussianDecay.html">brainpy.initialize.GaussianDecay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.initialize.DOGDecay.html">brainpy.initialize.DOGDecay</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../inputs.html"><code class="docutils literal notranslate"><span class="pre">brainpy.inputs</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.section_input.html">brainpy.inputs.section_input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.constant_input.html">brainpy.inputs.constant_input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.spike_input.html">brainpy.inputs.spike_input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.ramp_input.html">brainpy.inputs.ramp_input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.wiener_process.html">brainpy.inputs.wiener_process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.ou_process.html">brainpy.inputs.ou_process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.sinusoidal_input.html">brainpy.inputs.sinusoidal_input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.inputs.square_input.html">brainpy.inputs.square_input</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../losses.html"><code class="docutils literal notranslate"><span class="pre">brainpy.losses</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.cross_entropy_loss.html">brainpy.losses.cross_entropy_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.cross_entropy_sparse.html">brainpy.losses.cross_entropy_sparse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.cross_entropy_sigmoid.html">brainpy.losses.cross_entropy_sigmoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.l1_loos.html">brainpy.losses.l1_loos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.l2_loss.html">brainpy.losses.l2_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.huber_loss.html">brainpy.losses.huber_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.mean_absolute_error.html">brainpy.losses.mean_absolute_error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.mean_squared_error.html">brainpy.losses.mean_squared_error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.mean_squared_log_error.html">brainpy.losses.mean_squared_log_error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.binary_logistic_loss.html">brainpy.losses.binary_logistic_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.multiclass_logistic_loss.html">brainpy.losses.multiclass_logistic_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.sigmoid_binary_cross_entropy.html">brainpy.losses.sigmoid_binary_cross_entropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.softmax_cross_entropy.html">brainpy.losses.softmax_cross_entropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.log_cosh_loss.html">brainpy.losses.log_cosh_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.ctc_loss_with_forward_probs.html">brainpy.losses.ctc_loss_with_forward_probs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.ctc_loss.html">brainpy.losses.ctc_loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.l2_norm.html">brainpy.losses.l2_norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.mean_absolute.html">brainpy.losses.mean_absolute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.mean_square.html">brainpy.losses.mean_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.log_cosh.html">brainpy.losses.log_cosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.losses.smooth_labels.html">brainpy.losses.smooth_labels</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../measure.html"><code class="docutils literal notranslate"><span class="pre">brainpy.measure</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.cross_correlation.html">brainpy.measure.cross_correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.voltage_fluctuation.html">brainpy.measure.voltage_fluctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.matrix_correlation.html">brainpy.measure.matrix_correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.weighted_correlation.html">brainpy.measure.weighted_correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.functional_connectivity.html">brainpy.measure.functional_connectivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.raster_plot.html">brainpy.measure.raster_plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.firing_rate.html">brainpy.measure.firing_rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.measure.unitary_LFP.html">brainpy.measure.unitary_LFP</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../optim.html"><code class="docutils literal notranslate"><span class="pre">brainpy.optim</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Optimizer.html">brainpy.optim.Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.SGD.html">brainpy.optim.SGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Momentum.html">brainpy.optim.Momentum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.MomentumNesterov.html">brainpy.optim.MomentumNesterov</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Adagrad.html">brainpy.optim.Adagrad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Adadelta.html">brainpy.optim.Adadelta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.RMSProp.html">brainpy.optim.RMSProp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Adam.html">brainpy.optim.Adam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.LARS.html">brainpy.optim.LARS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Adan.html">brainpy.optim.Adan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.AdamW.html">brainpy.optim.AdamW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.make_schedule.html">brainpy.optim.make_schedule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Scheduler.html">brainpy.optim.Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.Constant.html">brainpy.optim.Constant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.StepLR.html">brainpy.optim.StepLR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.MultiStepLR.html">brainpy.optim.MultiStepLR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.CosineAnnealingLR.html">brainpy.optim.CosineAnnealingLR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.CosineAnnealingWarmRestarts.html">brainpy.optim.CosineAnnealingWarmRestarts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.ExponentialLR.html">brainpy.optim.ExponentialLR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.ExponentialDecay.html">brainpy.optim.ExponentialDecay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.InverseTimeDecay.html">brainpy.optim.InverseTimeDecay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.PolynomialDecay.html">brainpy.optim.PolynomialDecay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.optim.PiecewiseConstant.html">brainpy.optim.PiecewiseConstant</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../running.html"><code class="docutils literal notranslate"><span class="pre">brainpy.running</span></code> module</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.running.jax_vectorize_map.html">brainpy.running.jax_vectorize_map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.running.jax_parallelize_map.html">brainpy.running.jax_parallelize_map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.running.process_pool.html">brainpy.running.process_pool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.running.process_pool_lock.html">brainpy.running.process_pool_lock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.running.cpu_ordered_parallel.html">brainpy.running.cpu_ordered_parallel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brainpy.running.cpu_unordered_parallel.html">brainpy.running.cpu_unordered_parallel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release notes (brainpy)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/apis/auto/generated/brainpy.integrators.ode.BogackiShampine.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>brainpy.integrators.ode.BogackiShampine</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brainpy.integrators.ode.BogackiShampine"><code class="docutils literal notranslate"><span class="pre">BogackiShampine</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brainpy.integrators.ode.BogackiShampine.__init__"><code class="docutils literal notranslate"><span class="pre">BogackiShampine.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="brainpy-integrators-ode-bogackishampine">
+<h1>brainpy.integrators.ode.BogackiShampine<a class="headerlink" href="#brainpy-integrators-ode-bogackishampine" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="brainpy.integrators.ode.BogackiShampine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">brainpy.integrators.ode.</span></span><span class="sig-name descname"><span class="pre">BogackiShampine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_delays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neutral_delays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/brainpy/_src/integrators/ode/adaptive_rk.html#BogackiShampine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brainpy.integrators.ode.BogackiShampine" title="Permalink to this definition">#</a></dt>
+<dd><p>The Bogacki–Shampine method for ODEs.</p>
+<p>The Bogacki–Shampine method was proposed by Przemysław Bogacki and Lawrence F.
+Shampine in 1989 (Bogacki &amp; Shampine 1989). The Bogacki–Shampine method is a
+Runge–Kutta method of order three with four stages with the First Same As Last
+(FSAL) property, so that it uses approximately three function evaluations per
+step. It has an embedded second-order method which can be used to implement adaptive step size.</p>
+<p>It has the characteristics of:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>method stage = 4</p></li>
+<li><p>method order = 3</p></li>
+<li><p>Butcher Tables:</p></li>
+</ul>
+</div></blockquote>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l|lll}
+    0 &amp; &amp; &amp; \\
+    1 / 2 &amp; 1 / 2 &amp; &amp; \\
+    3 / 4 &amp; 0 &amp; 3 / 4 &amp; \\
+    1 &amp; 2 / 9 &amp; 1 / 3 &amp; 4 / 9 \\
+    \hline &amp; 2 / 9 &amp; 1 / 3 &amp; 4 / 90 \\
+    &amp; 7 / 24 &amp; 1 / 4 &amp; 1 / 3 &amp; 1 / 8
+\end{array}\end{split}\]</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id1" role="note">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Bogacki%E2%80%93Shampine_method">https://en.wikipedia.org/wiki/Bogacki%E2%80%93Shampine_method</a></p>
+</aside>
+<aside class="footnote brackets" id="id2" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>Bogacki, Przemysław; Shampine, Lawrence F. (1989), “A 3(2) pair of Runge–Kutta
+formulas”, Applied Mathematics Letters, 2 (4): 321–325, doi:10.1016/0893-9659(89)90079-7</p>
+</aside>
+</aside>
+<dl class="py method">
+<dt class="sig sig-object py" id="brainpy.integrators.ode.BogackiShampine.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_delays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neutral_delays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#brainpy.integrators.ode.BogackiShampine.__init__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#brainpy.integrators.ode.BogackiShampine.__init__" title="brainpy.integrators.ode.BogackiShampine.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(f[, var_type, dt, name, adaptive, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">build</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cpu</span></code>()</p></td>
+<td><p>Move all variable into the CPU device.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cuda</span></code>()</p></td>
+<td><p>Move all variables into the GPU device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_state_dict</span></code>(state_dict[, warn, compatible])</p></td>
+<td><p>Copy parameters and buffers from <code class="xref py py-attr docutils literal notranslate"><span class="pre">state_dict</span></code> into this module and its descendants.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_states</span></code>(filename[, verbose])</p></td>
+<td><p>Load the model states.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nodes</span></code>([method, level, include_self])</p></td>
+<td><p>Collect all children nodes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_implicit_nodes</span></code>(*nodes[, node_cls])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_implicit_vars</span></code>(*variables, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_states</span></code>(filename[, variables])</p></td>
+<td><p>Save the model states.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_integral</span></code>(f)</p></td>
+<td><p>Set the integral function.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">state_dict</span></code>()</p></td>
+<td><p>Returns a dictionary containing a whole state of the module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to</span></code>(device)</p></td>
+<td><p>Moves all variables into the given device.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tpu</span></code>()</p></td>
+<td><p>Move all variables into the TPU device.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">train_vars</span></code>([method, level, include_self])</p></td>
+<td><p>The shortcut for retrieving all trainable variables.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_flatten</span></code>()</p></td>
+<td><p>Flattens the object as a PyTree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_unflatten</span></code>(aux, dynamic_values)</p></td>
+<td><p>Unflatten the data to construct an object of this class.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_name</span></code>([name, type_])</p></td>
+<td><p>Get the unique name for this object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">vars</span></code>([method, level, include_self, ...])</p></td>
+<td><p>Collect all variables in this node and the children nodes.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">A</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">B1</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">B2</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">C</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">arguments</span></code></p></td>
+<td><p>All arguments when calling the numer integrator of the differential equation.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dt</span></code></p></td>
+<td><p>The numerical integration precision.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">integral</span></code></p></td>
+<td><p>The integral function.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>Name of the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">neutral_delays</span></code></p></td>
+<td><p>neutral delays.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></p></td>
+<td><p>The parameters defined in the differential equation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">state_delays</span></code></p></td>
+<td><p>State delays.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<td><p>The variables defined in the differential equation.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./apis\auto\generated"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="brainpy.integrators.ode.CashKarp.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">brainpy.integrators.ode.CashKarp</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="brainpy.integrators.ode.HeunEuler.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">brainpy.integrators.ode.HeunEuler</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brainpy.integrators.ode.BogackiShampine"><code class="docutils literal notranslate"><span class="pre">BogackiShampine</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#brainpy.integrators.ode.BogackiShampine.__init__"><code class="docutils literal notranslate"><span class="pre">BogackiShampine.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By BrainPy Team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2020-2023, BrainPy.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Apr 03, 2023.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

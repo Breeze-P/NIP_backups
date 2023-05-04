@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BrainPy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#docs">Documentation</a></li>
+                <li><a href="#github">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- main content -->
+    <section class="home" id="home">
+        <div class="container">
+            <div class="logo-container"><img src="/docs/_static/logo.png" alt="My Library Logo" class="logo"></div>
+            <h1>Welcome to BrainPy</h1>
+            <p>Brain Dynamics Programming in Python.</p >
+        </div>
+    </section>
+
+    <!-- Docs -->
+    <section class="docs" id="docs">
+        <div class="container">
+            <h2>Documentation</h2>
+            <p>Get started with BrainPy by reading the documentation.</p >
+            <a href="/docs/index.html" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- GitHub -->
+    <section class="github" id="github">
+        <div class="container">
+            <h2>GitHub</h2>
+            <p>Check out the source code for BrainPy on GitHub.</p >
+            <a href="https://github.com/brainpy/BrainPy" class="btn">GitHub</a>
+        </div>
+    </section>
+
+    <script>
+    </script>
+
+    <!-- Style -->
+    <style>
+
+    /* Updated CSS for My Library */
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        max-width: 1200px;
+        margin: 0 auto;
+    } 
+
+    /* General styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .container img {
+        width: 300px;
+    }
+
+    /* Navigation bar */
+        
+    .navbar {
+        background-color: #fff;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .logo {
+        font-size: 2rem;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .nav-links {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        list-style: none;
+    }
+
+    .nav-links li {
+        margin-left: 20px;
+    }
+
+    .nav-links li:first-child {
+        margin-left: 0;
+    }
+
+    .nav-links li a {
+        color: #333;
+        text-decoration: none;
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .nav-links li a:hover {
+        background-color: #333;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Home section */
+    .home {
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .home h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .home p {
+        font-size: 1.5rem;
+        margin-bottom: 50px;
+    }
+
+    /* Documentation section */
+    .docs {
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .docs h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .docs p {
+        font-size: 1.5rem;
+        margin-bottom: 50px;
+    }
+
+    .docs .btn {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+
+    .docs .btn:hover {
+        background-color: #fff;
+        color: #333;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* GitHub section */
+    .github {
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .github h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .github p {
+        font-size: 1.5rem;
+        margin-bottom: 50px;
+    }
+
+    .github .btn {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+
+    .github .btn:hover {
+        background-color: #fff;
+        color: #333;
+        transition: all 0.3s ease-in-out;
+    }
+
+    @media screen and (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+        }
+    }
+    </style>
+</body>
+</html>
